@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block titre %}Départements - UFR STA{% endblock %}
+
+{% block contenu %}
+<h2>Nos Départements</h2>
+
+{% for dept in departements %}
+    <div class="departement">
+        <h3>{{ dept.nom }}</h3>
+        <p>{{ dept.description }}</p>
+        <p><strong>Responsable :</strong> {{ dept.responsable }}</p>
+        <p><strong>Contact :</strong> {{ dept.contact }}</p>
+    </div>
+{% endfor %}
+
+{% endblock %}

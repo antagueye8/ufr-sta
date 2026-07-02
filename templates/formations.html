@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block titre %}Formations - UFR STA{% endblock %}
+
+{% block contenu %}
+<h2>Nos Formations</h2>
+
+{% for formation in formations %}
+    <div class="formation">
+        <h3>{{ formation.nom }}</h3>
+        <p><strong>Niveau :</strong> {{ formation.niveau }}</p>
+        <p><strong>Durée :</strong> {{ formation.duree }}</p>
+        <p><strong>Admission :</strong> {{ formation.admission }}</p>
+        <p><strong>Débouchés :</strong> {{ formation.debouches }}</p>
+
+        <h4>Programme</h4>
+        {% for semestre, modules in formation.programme.items() %}
+            <p><strong>{{ semestre }}</strong></p>
+            <ul>
+                {% for module in modules %}
+                    <li>{{ module }}</li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    </div>
+    <hr>
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titre %}UFR STA{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <header>
+        <h1>UFR STA</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Accueil</a></li>
+                <li><a href="/departements">Départements</a></li>
+                <li><a href="/formations">Formations</a></li>
+                <li><a href="/actualites">Actualités</a></li>
+                <li><a href="/activites">Activités</a></li>
+                <li><a href="/galerie">Galerie</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block contenu %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2026 UFR STA - Tous droits réservés</p>
+    </footer>
+
+</body>
+</html>
