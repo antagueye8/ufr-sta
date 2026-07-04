@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block titre %}Actualités - UFR STA{% endblock %}
+
+{% block contenu %}
+<h2>Nos Actualités</h2>
+
+{% if actualites %}
+    {% for actu in actualites %}
+        <div class="actualite">
+            <h3>{{ actu.titre }}</h3>
+            <p><em>{{ actu.date }}</em></p>
+            <p>{{ actu.description }}</p>
+        </div>
+        <hr>
+    {% endfor %}
+{% else %}
+    <p>Aucune actualité pour le moment.</p>
+{% endif %}
+
+{% endblock %}

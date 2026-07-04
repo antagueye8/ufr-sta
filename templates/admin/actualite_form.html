@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block titre %}Ajouter une actualité{% endblock %}
+
+{% block contenu %}
+<h2>Ajouter une actualité</h2>
+
+<form method="POST">
+    <label for="titre">Titre :</label><br>
+    <input type="text" id="titre" name="titre" required><br><br>
+
+    <label for="date">Date :</label><br>
+    <input type="date" id="date" name="date" required><br><br>
+
+    <label for="description">Description :</label><br>
+    <textarea id="description" name="description" required></textarea><br><br>
+
+    <label for="photo">Photo (nom du fichier, optionnel) :</label><br>
+    <input type="text" id="photo" name="photo"><br><br>
+
+    <button type="submit">Enregistrer</button>
+</form>
+
+{% endblock %}

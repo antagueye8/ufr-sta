@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block titre %}Administration - Actualités{% endblock %}
+
+{% block contenu %}
+<h2>Gestion des Actualités</h2>
+
+<a href="{{ url_for('admin_ajouter_actualite') }}">➕ Ajouter une actualité</a>
+
+<table border="1" cellpadding="10">
+    <tr>
+        <th>Titre</th>
+        <th>Date</th>
+        <th>Description</th>
+    </tr>
+    {% for actualite in actualites %}
+    <tr>
+        <td>{{ actualite.titre }}</td>
+        <td>{{ actualite.date }}</td>
+        <td>{{ actualite.description }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
