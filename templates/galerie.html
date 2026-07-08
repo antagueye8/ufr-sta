@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block titre %}Galerie Photos - UFR STA{% endblock %}
+
+{% block contenu %}
+<h2>Galerie Photos</h2>
+
+{% if albums %}
+    {% for album in albums %}
+        <div class="album">
+            <h3>{{ album.titre }}</h3>
+            <p><em>{{ album.date }}</em></p>
+            <p>{{ album.description }}</p>
+
+            <div class="photos-album">
+                {% for photo in album.photos %}
+                    <img src="{{ url_for('static', filename='images/' + photo.nom_fichier) }}" alt="{{ album.titre }}" width="200">
+                {% endfor %}
+            </div>
+        </div>
+        <hr>
+    {% endfor %}
+{% else %}
+    <p>Aucun album pour le moment.</p>
+{% endif %}
+
+{% endblock %}

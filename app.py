@@ -27,6 +27,20 @@ class Activite(db.Model):
     photos = db.Column(db.String(500), nullable=True)
 
 
+class Album(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    titre = db.Column(db.String(200), nullable=False)
+    description = db.Column(db.Text, nullable=True)
+    date = db.Column(db.String(50), nullable=False)
+    photos = db.relationship('Photo', backref='album', cascade='all, delete-orphan')
+
+
+class Photo(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nom_fichier = db.Column(db.String(200), nullable=False)
+    album_id = db.Column(db.Integer, db.ForeignKey('album.id'), nullable=False)
+
+
 @app.route('/')
 def accueil():
     return render_template('index.html')
@@ -194,6 +208,51 @@ def admin_supprimer_activite(id):
     db.session.delete(activite)
     db.session.commit()
     return redirect(url_for('admin_activites'))
+
+
+@app.route('/galerie')
+def galerie():
+    tous_albums = Album.query.all()
+    return render_template('galerie.html', albums=tous_albums)
+
+
+@app.route('/admin/galerie')
+def admin_galerie():
+    tous_albums = Album.query.all()
+    return render_template('admin/galerie_liste.html', albums=tous_albums)
+
+
+@app.route('/admin/galerie/ajouter', methods=['GET', 'POST'])
+def admin_ajouter_album():
+    if request.method == 'POST':
+        titre = request.form['titre']
+        description = request.form['description']
+        date = request.form['date']
+        noms_photos = request.form.get('photos', '')
+
+        nouvel_album = Album(titre=titre, description=description, date=date)
+        db.session.add(nouvel_album)
+        db.session.commit()
+
+        if noms_photos:
+            for nom in noms_photos.split(','):
+                nom = nom.strip()
+                if nom:
+                    photo = Photo(nom_fichier=nom, album_id=nouvel_album.id)
+                    db.session.add(photo)
+            db.session.commit()
+
+        return redirect(url_for('admin_galerie'))
+
+    return render_template('admin/album_form.html')
+
+
+@app.route('/admin/galerie/supprimer/<int:id>')
+def admin_supprimer_album(id):
+    album = Album.query.get_or_404(id)
+    db.session.delete(album)
+    db.session.commit()
+    return redirect(url_for('admin_galerie'))
 
 
 if __name__ == '__main__':

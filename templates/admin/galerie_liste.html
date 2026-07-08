@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block titre %}Administration - Galerie{% endblock %}
+
+{% block contenu %}
+<h2>Gestion de la Galerie</h2>
+
+<a href="{{ url_for('admin_ajouter_album') }}">➕ Ajouter un album</a>
+
+<table border="1" cellpadding="10">
+    <tr>
+        <th>Titre</th>
+        <th>Date</th>
+        <th>Nombre de photos</th>
+        <th>Actions</th>
+    </tr>
+    {% for album in albums %}
+    <tr>
+        <td>{{ album.titre }}</td>
+        <td>{{ album.date }}</td>
+        <td>{{ album.photos|length }}</td>
+        <td>
+            <a href="{{ url_for('admin_supprimer_album', id=album.id) }}" onclick="return confirm('Supprimer cet album et toutes ses photos ?')">🗑️ Supprimer</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
