@@ -1,8 +1,10 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for
+from functools import wraps
+from flask import Flask, render_template, request, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+app.secret_key = 'une_cle_secrete_a_changer'
 basedir = os.path.abspath(os.path.dirname(__file__))
 db_path = os.path.join(basedir, 'database', 'ufrsta.db').replace('\\', '/')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + db_path
@@ -40,6 +42,44 @@ class Photo(db.Model):
     nom_fichier = db.Column(db.String(200), nullable=False)
     album_id = db.Column(db.Integer, db.ForeignKey('album.id'), nullable=False)
 
+
+# ---------- SECURITE ADMIN ----------
+
+ADMIN_USERNAME = 'admin'
+ADMIN_PASSWORD = 'ufrsta2026'
+
+
+def connexion_requise(f):
+    @wraps(f)
+    def fonction_protegee(*args, **kwargs):
+        if not session.get('admin_connecte'):
+            return redirect(url_for('admin_login'))
+        return f(*args, **kwargs)
+    return fonction_protegee
+
+
+@app.route('/admin/login', methods=['GET', 'POST'])
+def admin_login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
+            session['admin_connecte'] = True
+            return redirect(url_for('admin_actualites'))
+        else:
+            return render_template('admin/login.html', erreur="Identifiants incorrects")
+
+    return render_template('admin/login.html')
+
+
+@app.route('/admin/logout')
+def admin_logout():
+    session.pop('admin_connecte', None)
+    return redirect(url_for('admin_login'))
+
+
+# ---------- PAGES PUBLIQUES ----------
 
 @app.route('/')
 def accueil():
@@ -106,13 +146,29 @@ def actualites():
     return render_template('actualites.html', actualites=toutes_actualites)
 
 
+@app.route('/activites')
+def activites():
+    toutes_activites = Activite.query.all()
+    return render_template('activites.html', activites=toutes_activites)
+
+
+@app.route('/galerie')
+def galerie():
+    tous_albums = Album.query.all()
+    return render_template('galerie.html', albums=tous_albums)
+
+
+# ---------- ADMIN ACTUALITES ----------
+
 @app.route('/admin/actualites')
+@connexion_requise
 def admin_actualites():
     toutes_actualites = Actualite.query.all()
     return render_template('admin/actualites_liste.html', actualites=toutes_actualites)
 
 
 @app.route('/admin/actualites/ajouter', methods=['GET', 'POST'])
+@connexion_requise
 def admin_ajouter_actualite():
     if request.method == 'POST':
         titre = request.form['titre']
@@ -130,6 +186,7 @@ def admin_ajouter_actualite():
 
 
 @app.route('/admin/actualites/modifier/<int:id>', methods=['GET', 'POST'])
+@connexion_requise
 def admin_modifier_actualite(id):
     actualite = Actualite.query.get_or_404(id)
 
@@ -146,6 +203,7 @@ def admin_modifier_actualite(id):
 
 
 @app.route('/admin/actualites/supprimer/<int:id>')
+@connexion_requise
 def admin_supprimer_actualite(id):
     actualite = Actualite.query.get_or_404(id)
     db.session.delete(actualite)
@@ -153,19 +211,17 @@ def admin_supprimer_actualite(id):
     return redirect(url_for('admin_actualites'))
 
 
-@app.route('/activites')
-def activites():
-    toutes_activites = Activite.query.all()
-    return render_template('activites.html', activites=toutes_activites)
-
+# ---------- ADMIN ACTIVITES ----------
 
 @app.route('/admin/activites')
+@connexion_requise
 def admin_activites():
     toutes_activites = Activite.query.all()
     return render_template('admin/activites_liste.html', activites=toutes_activites)
 
 
 @app.route('/admin/activites/ajouter', methods=['GET', 'POST'])
+@connexion_requise
 def admin_ajouter_activite():
     if request.method == 'POST':
         titre = request.form['titre']
@@ -185,6 +241,7 @@ def admin_ajouter_activite():
 
 
 @app.route('/admin/activites/modifier/<int:id>', methods=['GET', 'POST'])
+@connexion_requise
 def admin_modifier_activite(id):
     activite = Activite.query.get_or_404(id)
 
@@ -203,6 +260,7 @@ def admin_modifier_activite(id):
 
 
 @app.route('/admin/activites/supprimer/<int:id>')
+@connexion_requise
 def admin_supprimer_activite(id):
     activite = Activite.query.get_or_404(id)
     db.session.delete(activite)
@@ -210,19 +268,17 @@ def admin_supprimer_activite(id):
     return redirect(url_for('admin_activites'))
 
 
-@app.route('/galerie')
-def galerie():
-    tous_albums = Album.query.all()
-    return render_template('galerie.html', albums=tous_albums)
-
+# ---------- ADMIN GALERIE ----------
 
 @app.route('/admin/galerie')
+@connexion_requise
 def admin_galerie():
     tous_albums = Album.query.all()
     return render_template('admin/galerie_liste.html', albums=tous_albums)
 
 
 @app.route('/admin/galerie/ajouter', methods=['GET', 'POST'])
+@connexion_requise
 def admin_ajouter_album():
     if request.method == 'POST':
         titre = request.form['titre']
@@ -248,6 +304,7 @@ def admin_ajouter_album():
 
 
 @app.route('/admin/galerie/supprimer/<int:id>')
+@connexion_requise
 def admin_supprimer_album(id):
     album = Album.query.get_or_404(id)
     db.session.delete(album)

@@ -19,6 +19,9 @@
                 <li><a href="/activites">Activités</a></li>
                 <li><a href="/galerie">Galerie</a></li>
                 <li><a href="/contact">Contact</a></li>
+                {% if session.admin_connecte %}
+                    <li><a href="{{ url_for('admin_logout') }}">🔒 Déconnexion Admin</a></li>
+                {% endif %}
             </ul>
         </nav>
     </header>
