@@ -12,12 +12,18 @@
         <th>Titre</th>
         <th>Date</th>
         <th>Description</th>
+        <th>Actions</th>
     </tr>
     {% for actualite in actualites %}
     <tr>
         <td>{{ actualite.titre }}</td>
         <td>{{ actualite.date }}</td>
         <td>{{ actualite.description }}</td>
+        <td>
+            <a href="{{ url_for('admin_modifier_actualite', id=actualite.id) }}">✏️ Modifier</a>
+            |
+            <a href="{{ url_for('admin_supprimer_actualite', id=actualite.id) }}" onclick="return confirm('Supprimer cette actualité ?')">🗑️ Supprimer</a>
+        </td>
     </tr>
     {% endfor %}
 </table>

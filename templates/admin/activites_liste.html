@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block titre %}Administration - Activités{% endblock %}
+
+{% block contenu %}
+<h2>Gestion des Activités</h2>
+
+<a href="{{ url_for('admin_ajouter_activite') }}">➕ Ajouter une activité</a>
+
+<table border="1" cellpadding="10">
+    <tr>
+        <th>Titre</th>
+        <th>Date</th>
+        <th>Lieu</th>
+        <th>Organisateur</th>
+        <th>Actions</th>
+    </tr>
+    {% for activite in activites %}
+    <tr>
+        <td>{{ activite.titre }}</td>
+        <td>{{ activite.date }}</td>
+        <td>{{ activite.lieu }}</td>
+        <td>{{ activite.organisateur }}</td>
+        <td>
+            <a href="{{ url_for('admin_modifier_activite', id=activite.id) }}">✏️ Modifier</a>
+            |
+            <a href="{{ url_for('admin_supprimer_activite', id=activite.id) }}" onclick="return confirm('Supprimer cette activité ?')">🗑️ Supprimer</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block titre %}Activités - UFR STA{% endblock %}
+
+{% block contenu %}
+<h2>Journal des Activités</h2>
+
+{% if activites %}
+    {% for activite in activites %}
+        <div class="activite">
+            <h3>{{ activite.titre }}</h3>
+            <p><strong>Date :</strong> {{ activite.date }}</p>
+            <p><strong>Lieu :</strong> {{ activite.lieu }}</p>
+            <p><strong>Organisateur :</strong> {{ activite.organisateur }}</p>
+            <p>{{ activite.description }}</p>
+
+            {% if activite.photos %}
+                <div class="galerie-activite">
+                    {% for photo in activite.photos.split(',') %}
+                        <img src="{{ url_for('static', filename='images/' + photo.strip()) }}" alt="{{ activite.titre }}" width="200">
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <hr>
+    {% endfor %}
+{% else %}
+    <p>Aucune activité pour le moment.</p>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block titre %}
+    {% if activite %}Modifier{% else %}Ajouter{% endif %} une activité
+{% endblock %}
+
+{% block contenu %}
+<h2>{% if activite %}Modifier{% else %}Ajouter{% endif %} une activité</h2>
+
+<form method="POST">
+    <label for="titre">Titre :</label><br>
+    <input type="text" id="titre" name="titre" value="{{ activite.titre if activite else '' }}" required><br><br>
+
+    <label for="date">Date :</label><br>
+    <input type="date" id="date" name="date" value="{{ activite.date if activite else '' }}" required><br><br>
+
+    <label for="lieu">Lieu :</label><br>
+    <input type="text" id="lieu" name="lieu" value="{{ activite.lieu if activite else '' }}" required><br><br>
+
+    <label for="organisateur">Organisateur :</label><br>
+    <input type="text" id="organisateur" name="organisateur" value="{{ activite.organisateur if activite else '' }}" required><br><br>
+
+    <label for="description">Description :</label><br>
+    <textarea id="description" name="description" required>{{ activite.description if activite else '' }}</textarea><br><br>
+
+    <label for="photos">Photos (noms séparés par des virgules) :</label><br>
+    <input type="text" id="photos" name="photos" value="{{ activite.photos if activite else '' }}" placeholder="image1.jpg, image2.jpg"><br><br>
+
+    <button type="submit">Enregistrer</button>
+</form>
+
+{% endblock %}
