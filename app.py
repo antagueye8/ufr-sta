@@ -83,8 +83,8 @@ def admin_logout():
 
 @app.route('/')
 def accueil():
-    return render_template('index.html')
-
+    dernieres_actualites = Actualite.query.order_by(Actualite.id.desc()).limit(3).all()
+    return render_template('index.html', actualites=dernieres_actualites)
 
 @app.route('/departements')
 def departements():
