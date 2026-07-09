@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block titre %}Administration - Formations{% endblock %}
+
+{% block contenu %}
+<div class="page-head">
+    <div class="container">
+        <div class="breadcrumb"><a href="{{ url_for('admin_dashboard') }}">Admin</a> / Formations</div>
+        <h1>Gestion des formations</h1>
+    </div>
+</div>
+<section>
+    <div class="container">
+        <a class="btn btn-primary" href="{{ url_for('admin_ajouter_formation') }}">➕ Ajouter une formation</a>
+        <table border="1" cellpadding="10" style="width:100%;margin-top:1rem;border-collapse:collapse;">
+            <tr>
+                <th>Nom</th>
+                <th>Niveau</th>
+                <th>Durée</th>
+                <th>Actions</th>
+            </tr>
+            {% for formation in formations %}
+            <tr>
+                <td>{{ formation.nom }}</td>
+                <td>{{ formation.niveau }}</td>
+                <td>{{ formation.duree }}</td>
+                <td>
+                    <a href="{{ url_for('admin_modifier_formation', id=formation.id) }}">Modifier</a>
+                    &nbsp;|&nbsp;
+                    <form method="POST" action="{{ url_for('admin_supprimer_formation', id=formation.id) }}" style="display:inline;" onsubmit="return confirm('Supprimer cette formation ?');">
+                        <button type="submit" style="background:none;border:none;color:#c0392b;cursor:pointer;padding:0;">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</section>
+{% endblock %}

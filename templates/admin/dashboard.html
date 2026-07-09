@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block titre %}Tableau de bord Admin - UFR STA{% endblock %}
+
+{% block contenu %}
+<div class="page-head">
+    <div class="container">
+        <div class="breadcrumb"><a href="{{ url_for('accueil') }}">Accueil</a> / Administration</div>
+        <h1>Tableau de bord</h1>
+        <p class="lede">Connecté en tant que <strong>{{ session.admin_username }}</strong> —
+            <a href="{{ url_for('admin_logout') }}">Se déconnecter</a>
+        </p>
+    </div>
+</div>
+
+<section>
+    <div class="container">
+        <div class="grid grid-3">
+            <article class="fiche">
+                <h3>Actualités</h3>
+                <p>{{ nb_actualites }} publiée(s)</p>
+                <a class="btn btn-outline" href="{{ url_for('admin_actualites') }}">Gérer les actualités →</a>
+            </article>
+            <article class="fiche">
+                <h3>Activités</h3>
+                <p>{{ nb_activites }} publiée(s)</p>
+                <a class="btn btn-outline" href="{{ url_for('admin_activites') }}">Gérer les activités →</a>
+            </article>
+            <article class="fiche">
+                <h3>Galerie</h3>
+                <p>{{ nb_albums }} album(s)</p>
+                <a class="btn btn-outline" href="{{ url_for('admin_galerie') }}">Gérer la galerie →</a>
+            </article>
+            <article class="fiche">
+                <h3>Formations</h3>
+                <p>{{ nb_formations }} formation(s)</p>
+                <a class="btn btn-outline" href="{{ url_for('admin_formations') }}">Gérer les formations →</a>
+            </article>
+            <article class="fiche">
+                <h3>Messages</h3>
+                <p>{{ nb_messages_non_lus }} non lu(s) / {{ nb_messages }} au total</p>
+                <a class="btn btn-outline" href="{{ url_for('admin_messages') }}">Voir les messages →</a>
+            </article>
+        </div>
+    </div>
+</section>
+{% endblock %}
