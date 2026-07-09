@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.pyc
+
+# Base de données générée localement
+database/*.db
+
+# Secrets (variables d'environnement réelles — ne JAMAIS committer)
+.env
+
+# Environnement virtuel
+venv/
+env/
+
+# Éditeurs
+.vscode/
