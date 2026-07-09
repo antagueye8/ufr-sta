@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block titre %}Administration - Messages{% endblock %}
+
+{% block contenu %}
+<div class="page-head">
+    <div class="container">
+        <div class="breadcrumb"><a href="{{ url_for('admin_dashboard') }}">Admin</a> / Messages</div>
+        <h1>Messages de contact</h1>
+    </div>
+</div>
+<section>
+    <div class="container">
+        <table border="1" cellpadding="10" style="width:100%;border-collapse:collapse;">
+            <tr>
+                <th>Statut</th>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Sujet</th>
+                <th>Message</th>
+                <th>Reçu le</th>
+                <th>Actions</th>
+            </tr>
+            {% for msg in messages %}
+            <tr style="{{ 'opacity:0.6;' if msg.lu else 'font-weight:bold;' }}">
+                <td>{{ '✅ Lu' if msg.lu else '🔵 Non lu' }}</td>
+                <td>{{ msg.nom }}</td>
+                <td>{{ msg.email }}</td>
+                <td>{{ msg.sujet }}</td>
+                <td>{{ msg.contenu }}</td>
+                <td>{{ msg.date_envoi.strftime('%d/%m/%Y %H:%M') }}</td>
+                <td>
+                    <form method="POST" action="{{ url_for('admin_marquer_lu', id=msg.id) }}" style="display:inline;">
+                        <button type="submit" style="background:none;border:none;color:#2980b9;cursor:pointer;padding:0;">
+                            {{ 'Marquer non lu' if msg.lu else 'Marquer lu' }}
+                        </button>
+                    </form>
+                    &nbsp;|&nbsp;
+                    <form method="POST" action="{{ url_for('admin_supprimer_message', id=msg.id) }}" style="display:inline;" onsubmit="return confirm('Supprimer ce message ?');">
+                        <button type="submit" style="background:none;border:none;color:#c0392b;cursor:pointer;padding:0;">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="7">Aucun message reçu pour le moment.</td></tr>
+            {% endfor %}
+        </table>
+    </div>
+</section>
+{% endblock %}

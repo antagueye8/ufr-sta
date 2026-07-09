@@ -1,32 +1,43 @@
 {% extends "base.html" %}
 
-{% block titre %}
-    {% if activite %}Modifier{% else %}Ajouter{% endif %} une activité
-{% endblock %}
+{% block titre %}{{ 'Modifier' if activite else 'Ajouter' }} une activité{% endblock %}
 
 {% block contenu %}
-<h2>{% if activite %}Modifier{% else %}Ajouter{% endif %} une activité</h2>
-
-<form method="POST">
-    <label for="titre">Titre :</label><br>
-    <input type="text" id="titre" name="titre" value="{{ activite.titre if activite else '' }}" required><br><br>
-
-    <label for="date">Date :</label><br>
-    <input type="date" id="date" name="date" value="{{ activite.date if activite else '' }}" required><br><br>
-
-    <label for="lieu">Lieu :</label><br>
-    <input type="text" id="lieu" name="lieu" value="{{ activite.lieu if activite else '' }}" required><br><br>
-
-    <label for="organisateur">Organisateur :</label><br>
-    <input type="text" id="organisateur" name="organisateur" value="{{ activite.organisateur if activite else '' }}" required><br><br>
-
-    <label for="description">Description :</label><br>
-    <textarea id="description" name="description" required>{{ activite.description if activite else '' }}</textarea><br><br>
-
-    <label for="photos">Photos (noms séparés par des virgules) :</label><br>
-    <input type="text" id="photos" name="photos" value="{{ activite.photos if activite else '' }}" placeholder="image1.jpg, image2.jpg"><br><br>
-
-    <button type="submit">Enregistrer</button>
-</form>
-
+<div class="page-head">
+    <div class="container">
+        <div class="breadcrumb"><a href="{{ url_for('admin_activites') }}">Admin / Activités</a> / {{ 'Modifier' if activite else 'Ajouter' }}</div>
+        <h1>{{ 'Modifier' if activite else 'Ajouter' }} une activité</h1>
+    </div>
+</div>
+<section>
+    <div class="container" style="max-width:600px;">
+        <form method="POST">
+            <div class="form-field">
+                <label for="titre">Titre de l'activité</label>
+                <input type="text" id="titre" name="titre" value="{{ activite.titre if activite else '' }}" required>
+            </div>
+            <div class="form-field">
+                <label for="date">Date</label>
+                <input type="text" id="date" name="date" placeholder="ex: 15 Avril 2026" value="{{ activite.date if activite else '' }}" required>
+            </div>
+            <div class="form-field">
+                <label for="lieu">Lieu</label>
+                <input type="text" id="lieu" name="lieu" value="{{ activite.lieu if activite else '' }}" required>
+            </div>
+            <div class="form-field">
+                <label for="organisateur">Organisateur</label>
+                <input type="text" id="organisateur" name="organisateur" value="{{ activite.organisateur if activite else '' }}" required>
+            </div>
+            <div class="form-field">
+                <label for="description">Description complète</label>
+                <textarea id="description" name="description" required>{{ activite.description if activite else '' }}</textarea>
+            </div>
+            <div class="form-field">
+                <label for="photos">Photos <span class="hint">(noms de fichiers séparés par des virgules, ex: photo1.jpg, photo2.jpg)</span></label>
+                <input type="text" id="photos" name="photos" value="{{ activite.photos|map(attribute='filename')|join(', ') if activite else '' }}">
+            </div>
+            <button class="btn btn-primary" type="submit">Enregistrer</button>
+        </form>
+    </div>
+</section>
 {% endblock %}

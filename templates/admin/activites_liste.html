@@ -3,31 +3,39 @@
 {% block titre %}Administration - Activités{% endblock %}
 
 {% block contenu %}
-<h2>Gestion des Activités</h2>
-
-<a href="{{ url_for('admin_ajouter_activite') }}">➕ Ajouter une activité</a>
-
-<table border="1" cellpadding="10">
-    <tr>
-        <th>Titre</th>
-        <th>Date</th>
-        <th>Lieu</th>
-        <th>Organisateur</th>
-        <th>Actions</th>
-    </tr>
-    {% for activite in activites %}
-    <tr>
-        <td>{{ activite.titre }}</td>
-        <td>{{ activite.date }}</td>
-        <td>{{ activite.lieu }}</td>
-        <td>{{ activite.organisateur }}</td>
-        <td>
-            <a href="{{ url_for('admin_modifier_activite', id=activite.id) }}">✏️ Modifier</a>
-            |
-            <a href="{{ url_for('admin_supprimer_activite', id=activite.id) }}" onclick="return confirm('Supprimer cette activité ?')">🗑️ Supprimer</a>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
-
+<div class="page-head">
+    <div class="container">
+        <div class="breadcrumb"><a href="{{ url_for('admin_dashboard') }}">Admin</a> / Activités</div>
+        <h1>Gestion des activités</h1>
+    </div>
+</div>
+<section>
+    <div class="container">
+        <a class="btn btn-primary" href="{{ url_for('admin_ajouter_activite') }}">➕ Ajouter une activité</a>
+        <table border="1" cellpadding="10" style="width:100%;margin-top:1rem;border-collapse:collapse;">
+            <tr>
+                <th>Titre</th>
+                <th>Date</th>
+                <th>Lieu</th>
+                <th>Photos</th>
+                <th>Actions</th>
+            </tr>
+            {% for act in activites %}
+            <tr>
+                <td>{{ act.titre }}</td>
+                <td>{{ act.date }}</td>
+                <td>{{ act.lieu }}</td>
+                <td>{{ act.photos|length }}</td>
+                <td>
+                    <a href="{{ url_for('admin_modifier_activite', id=act.id) }}">Modifier</a>
+                    &nbsp;|&nbsp;
+                    <form method="POST" action="{{ url_for('admin_supprimer_activite', id=act.id) }}" style="display:inline;" onsubmit="return confirm('Supprimer cette activité ?');">
+                        <button type="submit" style="background:none;border:none;color:#c0392b;cursor:pointer;padding:0;">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</section>
 {% endblock %}

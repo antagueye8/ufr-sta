@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block titre %}Enseignants - UFR STA{% endblock %}
+
+{% block contenu %}
+<div class="page-head">
+    <div class="container">
+        <div class="breadcrumb"><a href="{{ url_for('accueil') }}">Accueil</a> / Enseignants</div>
+        <h1>Corps enseignant</h1>
+        <p class="lede">Les enseignants-chercheurs qui encadrent les formations de l'UFR STA.</p>
+    </div>
+</div>
+
+<section>
+    <div class="container">
+        <div class="grid grid-3">
+            {% for ens in enseignants %}
+            <article class="teacher-card">
+                <div class="teacher-photo">
+                    <img src="{{ url_for('static', filename='images/'+ ens.photo) }}" alt="{{ ens.nom }}">
+                </div>
+                <h3>{{ ens.nom }}</h3>
+                <span class="grade">{{ ens.grade }}</span>
+                <p class="dept">Département {{ ens.departement }} - {{ ens.recherche }}</p>
+                <p class="email"> {{ ens.email }}</p>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

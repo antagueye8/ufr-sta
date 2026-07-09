@@ -3,27 +3,75 @@
 {% block titre %}Formations - UFR STA{% endblock %}
 
 {% block contenu %}
-<h2>Nos Formations</h2>
-
-{% for formation in formations %}
-    <div class="formation">
-        <h3>{{ formation.nom }}</h3>
-        <p><strong>Niveau :</strong> {{ formation.niveau }}</p>
-        <p><strong>Durée :</strong> {{ formation.duree }}</p>
-        <p><strong>Admission :</strong> {{ formation.admission }}</p>
-        <p><strong>Débouchés :</strong> {{ formation.debouches }}</p>
-
-        <h4>Programme</h4>
-        {% for semestre, modules in formation.programme.items() %}
-            <p><strong>{{ semestre }}</strong></p>
-            <ul>
-                {% for module in modules %}
-                    <li>{{ module }}</li>
-                {% endfor %}
-            </ul>
+<div class="page-head">
+    <div class="container">
+        <div class="breadcrumb"><a href="{{ url_for('accueil') }}">Accueil</a> / Formations</div>
+        <h1>Nos formations</h1>
+        <p class="lede">L'UFR STA place le curseur sur des formations innovantes à travers des cursus de
+            Licence et de Master construits semestre après semestre, avec des débouchés professionnels clairement identifiés.
+        </p>
+    </div>
+</div>
+<section>
+    <div class="container">
+        {% for formation in formations %}
+        <div class="formation">
+            <button class="formation-head" type="button" onclick="toggleFormation(this)">
+                <div>
+                    <span class="level">{{ formation.niveau }}</span>
+                    <h3>{{ formation.nom }}</h3>
+                </div>
+                <span class="chevron">+</span>
+            </button>
+            <div class="formation-body">
+                <div class="formation-body-inner" id="formation-inner-{{ loop.index }}">
+                    <div class="info-grid">
+                        <div><span>Niveau</span>{{ formation.niveau }}</div>
+                        <div><span>Durée</span>{{ formation.duree }}</div>
+                        <div><span>Admission</span>{{ formation.admission }}</div>
+                        <div><span>Débouchés</span>{{ formation.debouches }}</div>
+                    </div>
+                    <table class="programme-table">
+                        <thead>
+                            <tr>
+                                {% for semestre in formation.programme.keys() %}
+                                <th>{{ semestre }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                {% for modules in formation.programme.values() %}
+                                <td>
+                                    <ul>
+                                        {% for module in modules %}
+                                        <li>{{ module }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </td>
+                                {% endfor %}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
         {% endfor %}
     </div>
-    <hr>
-{% endfor %}
+</section>
 
-{% endblock %}
+<script>
+    function toggleFormation(btn) {
+        const card = btn.parentElement;
+        const body = card.querySelector('.formation-body');
+        const isOpen = card.classList.contains('open');
+        if (isOpen) {
+            card.classList.remove('open');
+            body.style.maxHeight = null;
+        } else {
+            card.classList.add('open');
+            body.style.maxHeight = body.scrollHeight + 'px'
+        }
+    }
+</script>
+{% endblock %} 

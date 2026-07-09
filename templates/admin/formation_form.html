@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block titre %}{{ 'Modifier' if formation else 'Ajouter' }} une formation{% endblock %}
+
+{% block contenu %}
+<div class="page-head">
+    <div class="container">
+        <div class="breadcrumb"><a href="{{ url_for('admin_formations') }}">Admin / Formations</a> / {{ 'Modifier' if formation else 'Ajouter' }}</div>
+        <h1>{{ 'Modifier' if formation else 'Ajouter' }} une formation</h1>
+    </div>
+</div>
+<section>
+    <div class="container" style="max-width:600px;">
+        <form method="POST">
+            <div class="form-field">
+                <label for="nom">Nom de la formation</label>
+                <input type="text" id="nom" name="nom" value="{{ formation.nom if formation else '' }}" required>
+            </div>
+            <div class="form-field">
+                <label for="niveau">Niveau</label>
+                <input type="text" id="niveau" name="niveau" placeholder="ex: Licence (Bac+3)" value="{{ formation.niveau if formation else '' }}" required>
+            </div>
+            <div class="form-field">
+                <label for="duree">Durée</label>
+                <input type="text" id="duree" name="duree" placeholder="ex: 3 ans" value="{{ formation.duree if formation else '' }}" required>
+            </div>
+            <div class="form-field">
+                <label for="admission">Conditions d'admission</label>
+                <input type="text" id="admission" name="admission" value="{{ formation.admission if formation else '' }}" required>
+            </div>
+            <div class="form-field">
+                <label for="debouches">Débouchés</label>
+                <input type="text" id="debouches" name="debouches" value="{{ formation.debouches if formation else '' }}" required>
+            </div>
+            <div class="form-field">
+                <label for="modules_s1">Modules Semestre 1 <span class="hint">(séparés par des virgules)</span></label>
+                <input type="text" id="modules_s1" name="modules_s1" value="{{ formation.modules_s1 if formation else '' }}" required>
+            </div>
+            <div class="form-field">
+                <label for="modules_s2">Modules Semestre 2 <span class="hint">(séparés par des virgules)</span></label>
+                <input type="text" id="modules_s2" name="modules_s2" value="{{ formation.modules_s2 if formation else '' }}" required>
+            </div>
+            <button class="btn btn-primary" type="submit">Enregistrer</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

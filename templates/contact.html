@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block titre %}Contact · UFR STA{% endblock %}
+
+{% block contenu %}
+<div class="page-head">
+  <div class="container">
+    <div class="breadcrumb"><a href="{{ url_for('accueil') }}">Accueil</a> / Contact</div>
+    <h1>Contactez-nous</h1>
+    <p class="lede">Une question sur nos formations, un partenariat à proposer ? Écrivez-nous, notre
+    équipe vous répondra dans les meilleurs délais.</p>
+  </div>
+</div>
+
+<section>
+  <div class="container contact-wrap">
+    <div>
+      {% if envoye %}
+      <div class="admin-note">
+        <span>✅</span>
+        <span>Votre message a bien été envoyé. Merci, nous revenons vers vous rapidement !</span>
+      </div>
+      {% endif %}
+      <form method="POST" action="{{ url_for('contact') }}" novalidate>
+        <div class="form-field">
+          <label for="nom">Nom complet</label>
+          <input type="text" id="nom" name="nom" required autocomplete="name">
+        </div>
+        <div class="form-field">
+          <label for="email">Adresse email</label>
+          <input type="email" id="email" name="email" required autocomplete="email">
+        </div>
+        <div class="form-field">
+          <label for="sujet">Sujet</label>
+          <input type="text" id="sujet" name="sujet" required>
+        </div>
+        <div class="form-field">
+          <label for="message">Message <span class="hint">(décrivez votre demande)</span></label>
+          <textarea id="message" name="message" required></textarea>
+        </div>
+        <button class="btn btn-primary" type="submit">Envoyer le message</button>
+      </form>
+    </div>
+    <div class="contact-info">
+      <div class="fiche">
+        <h4>Adresse</h4>
+        <p>Campus UAM, Pôle Urbain de Diamniadio, Sénégal</p>
+      </div>
+      <div class="fiche">
+        <h4>Email</h4>
+        <p>directeur-ufrsta@uam.edu.sn</p>
+      </div>
+      <div class="fiche">
+        <h4>Téléphone</h4>
+        <p>+221 33 844 10 00</p>
+      </div>
+      <div class="fiche">
+        <h4>Horaires</h4>
+        <p>Lundi – Vendredi, 08h00 – 17h00</p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

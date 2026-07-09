@@ -3,29 +3,40 @@
 {% block titre %}Activités - UFR STA{% endblock %}
 
 {% block contenu %}
-<h2>Journal des Activités</h2>
+<div class="page-head">
+    <div class="container">
+        <div class="breadcrumb"><a href="{{ url_for('accueil') }}">Accueil</a> / Activités</div>
+        <h1>Journal des activités</h1>
+        <p class="lede">Visites, conférences, ateliers, compétitions et sorties pédagogiques: le récit
+            vivant de la vie de l'UFR STA, semaine aprés semaine.
+        </p>
+    </div>
+</div>
 
-{% if activites %}
-    {% for activite in activites %}
-        <div class="activite">
-            <h3>{{ activite.titre }}</h3>
-            <p><strong>Date :</strong> {{ activite.date }}</p>
-            <p><strong>Lieu :</strong> {{ activite.lieu }}</p>
-            <p><strong>Organisateur :</strong> {{ activite.organisateur }}</p>
-            <p>{{ activite.description }}</p>
-
-            {% if activite.photos %}
-                <div class="galerie-activite">
-                    {% for photo in activite.photos.split(',') %}
-                        <img src="{{ url_for('static', filename='images/' + photo.strip()) }}" alt="{{ activite.titre }}" width="200">
+<section>
+    <div class="container">
+        <div class="grid grid-3">
+            {% for act in activites %}
+            <article class="fiche">
+                <span class="fiche-code">{{ act.date }}</span>
+                <h3>{{ act.titre }}</h3>
+                <p>{{ act.description }}</p>
+                <div class="fiche-meta">
+                    <span>{{ act.lieu }}</span>
+                    <span>{{ act.organisateur }}</span>
+                </div>
+                {% if act.photos %}
+                <div class="photo-grid mt-2">
+                    {% for photo in act.photos %}
+                    <figure>
+                        <img src="{{ url_for('static', filename='images/' ~ photo.filename) }}" alt="Photo - {{ act.titre }}">
+                    </figure>
                     {% endfor %}
                 </div>
-            {% endif %}
+                {% endif %}
+            </article>
+            {% endfor %}
         </div>
-        <hr>
-    {% endfor %}
-{% else %}
-    <p>Aucune activité pour le moment.</p>
-{% endif %}
-
+    </div>
+</section>
 {% endblock %}
