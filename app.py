@@ -90,27 +90,21 @@ def accueil():
 def departements():
     liste_departements = [
         {
-            "nom": "Département Informatique",
-            "description": "Formation en développement logiciel, réseaux et cybersécurité.",
-            "responsable": "Dr. Gueye",
-            "contact": "info@ufrsta.sn"
+            "nom": "MIM - Mathématiques Modélisation et Informatique",
+            "description": "Département regroupant les formations en mathématiques, modélisation et informatique.",
+            "responsable": "Mr Sow",
+            "contact": "mim@ufrsta.sn",
+            "filieres": ["Mathématiques et Modélisation", "Informatique", "MIASS"]
         },
         {
-            "nom": "Département Mathématiques",
-            "description": "Formation en mathématiques fondamentales et appliquées.",
-            "responsable": "Dr. Sow",
-            "contact": "maths@ufrsta.sn"
-        },
-        {
-            "nom": "Département Physique",
-            "description": "Formation en physique théorique et expérimentale.",
-            "responsable": "Dr. Ndao",
-            "contact": "physique@ufrsta.sn"
+            "nom": "SMU - Sciences de la Matière et de l'Univers",
+            "description": "Département regroupant les formations en physique et en sciences de la mer et du littoral.",
+            "responsable": "Mr Ndao",
+            "contact": "smu@ufrsta.sn",
+            "filieres": ["Physique", "SML (Sciences de la Mer et du Littoral)"]
         }
     ]
     return render_template('departements.html', departements=liste_departements)
-
-
 @app.route('/formations')
 def formations():
     liste_formations = [

@@ -11,6 +11,13 @@
         <p>{{ dept.description }}</p>
         <p><strong>Responsable :</strong> {{ dept.responsable }}</p>
         <p><strong>Contact :</strong> {{ dept.contact }}</p>
+
+        <h4>Filières</h4>
+        <ul>
+            {% for filiere in dept.filieres %}
+                <li>{{ filiere }}</li>
+            {% endfor %}
+        </ul>
     </div>
 {% endfor %}
 
