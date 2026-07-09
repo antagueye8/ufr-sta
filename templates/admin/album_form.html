@@ -3,22 +3,33 @@
 {% block titre %}Ajouter un album{% endblock %}
 
 {% block contenu %}
-<h2>Ajouter un album</h2>
-
-<form method="POST">
-    <label for="titre">Titre de l'album :</label><br>
-    <input type="text" id="titre" name="titre" required><br><br>
-
-    <label for="date">Date :</label><br>
-    <input type="date" id="date" name="date" required><br><br>
-
-    <label for="description">Description :</label><br>
-    <textarea id="description" name="description"></textarea><br><br>
-
-    <label for="photos">Photos (noms de fichiers séparés par des virgules) :</label><br>
-    <input type="text" id="photos" name="photos" placeholder="photo1.jpg, photo2.jpg, photo3.jpg"><br><br>
-
-    <button type="submit">Enregistrer</button>
-</form>
-
+<div class="page-head">
+    <div class="container">
+        <div class="breadcrumb"><a href="{{ url_for('admin_galerie') }}">Admin / Galerie</a> / Ajouter</div>
+        <h1>Ajouter un album</h1>
+    </div>
+</div>
+<section>
+    <div class="container" style="max-width:600px;">
+        <form method="POST">
+            <div class="form-field">
+                <label for="titre">Titre de l'album</label>
+                <input type="text" id="titre" name="titre" required>
+            </div>
+            <div class="form-field">
+                <label for="date">Date</label>
+                <input type="text" id="date" name="date" placeholder="ex: 2026" required>
+            </div>
+            <div class="form-field">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" required></textarea>
+            </div>
+            <div class="form-field">
+                <label for="photos">Photos <span class="hint">(noms de fichiers séparés par des virgules)</span></label>
+                <input type="text" id="photos" name="photos">
+            </div>
+            <button class="btn btn-primary" type="submit">Enregistrer</button>
+        </form>
+    </div>
+</section>
 {% endblock %}
