@@ -1,3 +1,48 @@
 {% extends "base.html" %}
 
 {% block titre %}Accueil - UFR STA{% endblock %}
+
+{% block contenu %}
+
+<div class="accueil-hero">
+    <h2>UFR Sciences et Techniques Appliquées</h2>
+    <p class="sous-titre">Université Amadou Mahtar Mbow</p>
+</div>
+
+<div class="mot-directeur">
+    <h3>Mot du Directeur</h3>
+    <p>
+        Bienvenue sur le site officiel de l'UFR STA. Notre unité de formation et de recherche
+        s'engage chaque jour à offrir une formation d'excellence à nos étudiants, dans les domaines
+        des mathématiques, de la physique, de l'informatique et des sciences de la mer et du littoral.
+        Nous sommes fiers de former les compétences scientifiques et techniques de demain, capables
+        de répondre aux défis technologiques et environnementaux de notre société.
+    </p>
+</div>
+
+<div class="presentation">
+    <h3>Présentation générale</h3>
+    <p>
+        L'UFR STA propose des formations de Licence et de Master couvrant plusieurs disciplines
+        scientifiques. Elle met à disposition des étudiants des infrastructures modernes, un corps
+        enseignant qualifié, et un accompagnement personnalisé tout au long de leur parcours académique.
+    </p>
+</div>
+
+<div class="dernieres-actualites">
+    <h3>Dernières Actualités</h3>
+    {% if actualites %}
+        {% for actu in actualites %}
+            <div class="actualite-mini">
+                <h4>{{ actu.titre }}</h4>
+                <p><em>{{ actu.date }}</em></p>
+                <p>{{ actu.description }}</p>
+            </div>
+        {% endfor %}
+        <p><a href="{{ url_for('actualites') }}">Voir toutes les actualités →</a></p>
+    {% else %}
+        <p>Aucune actualité pour le moment.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -143,7 +143,8 @@ def admin_dashboard():
 
 @app.route('/')
 def accueil():
-    return render_template('index.html', active_page='accueil')
+    dernieres_actualites = Actualite.query.order_by(Actualite.id.desc()).limit(3).all()
+    return render_template('index.html', actualites=dernieres_actualites, active_page='accueil')
 
 
 @app.route('/departements')
