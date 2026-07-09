@@ -3,29 +3,37 @@
 {% block titre %}Administration - Actualités{% endblock %}
 
 {% block contenu %}
-<h2>Gestion des Actualités</h2>
-
-<a href="{{ url_for('admin_ajouter_actualite') }}">➕ Ajouter une actualité</a>
-
-<table border="1" cellpadding="10">
-    <tr>
-        <th>Titre</th>
-        <th>Date</th>
-        <th>Description</th>
-        <th>Actions</th>
-    </tr>
-    {% for actualite in actualites %}
-    <tr>
-        <td>{{ actualite.titre }}</td>
-        <td>{{ actualite.date }}</td>
-        <td>{{ actualite.description }}</td>
-        <td>
-            <a href="{{ url_for('admin_modifier_actualite', id=actualite.id) }}">✏️ Modifier</a>
-            |
-            <a href="{{ url_for('admin_supprimer_actualite', id=actualite.id) }}" onclick="return confirm('Supprimer cette actualité ?')">🗑️ Supprimer</a>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
-
+<div class="page-head">
+    <div class="container">
+        <div class="breadcrumb"><a href="{{ url_for('admin_dashboard') }}">Admin</a> / Actualités</div>
+        <h1>Gestion des actualités</h1>
+    </div>
+</div>
+<section>
+    <div class="container">
+        <a class="btn btn-primary" href="{{ url_for('admin_ajouter_actualite') }}">➕ Ajouter une actualité</a>
+        <table border="1" cellpadding="10" style="width:100%;margin-top:1rem;border-collapse:collapse;">
+            <tr>
+                <th>Titre</th>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+            {% for actualite in actualites %}
+            <tr>
+                <td>{{ actualite.titre }}</td>
+                <td>{{ actualite.date }}</td>
+                <td>{{ actualite.description }}</td>
+                <td>
+                    <a href="{{ url_for('admin_modifier_actualite', id=actualite.id) }}">Modifier</a>
+                    &nbsp;|&nbsp;
+                    <form method="POST" action="{{ url_for('admin_supprimer_actualite', id=actualite.id) }}" style="display:inline;" onsubmit="return confirm('Supprimer cette actualité ?');">
+                        <button type="submit" style="background:none;border:none;color:#c0392b;cursor:pointer;padding:0;">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</section>
 {% endblock %}

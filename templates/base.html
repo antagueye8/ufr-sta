@@ -1,39 +1,316 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block titre %}UFR STA{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block titre %} Accueil · UFR STA{% endblock %}</title>
+  <meta name="description" content="Site vitrine de l'UFR Sciences, Techniques et Applications (UFR STA) — formations, actualités et vie académique.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../static/css/style.css">
 </head>
 <body>
+  <a class="skip-link" href="#main">Aller au contenu</a>
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="{{ url_for('accueil') }}">
+        <img class="brand-mark" src="{{ url_for('static', filename='images/Logo-STA.png')}}" alt="Logo UFR STA">
+        <span class="brand-text"><strong>UFR STA</strong><span>Sciences · Technologies · Appliquées</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Navigation principale">
+        <div class="container">
+          <ul>
+        <li><a href="{{ url_for('accueil') }}" class="{{ 'active' if active_page == 'accueil' else '' }}">Accueil</a></li>
+        <li><a href="{{ url_for('departements') }}" class="{{ 'active' if active_page == 'departements' else '' }}">Départements</a></li>
+        <li><a href="{{ url_for('formations') }}" class="{{ 'active' if active_page == 'formations' else '' }}">Formations</a></li>
+        <li><a href="{{ url_for('actualites') }}" class="{{ 'active' if active_page == 'actualites' else '' }}">Actualités</a></li>
+        <li><a href="{{ url_for('activites') }}" class="{{ 'active' if active_page == 'activites' else '' }}">Activités</a></li>
+        <li><a href="{{ url_for('galerie') }}" class="{{ 'active' if active_page == 'galerie' else '' }}">Galerie</a></li>
+        <li><a href="{{ url_for('enseignants') }}" class="{{ 'active' if active_page == 'enseignants' else '' }}">Enseignants</a></li>
+        <li><a href="{{ url_for('contact') }}" class="{{ 'active' if active_page == 'contact' else '' }}">Contact</a></li>
+	    {% if session.admin_connecte %}
+            <li><a href="{{ url_for('admin_logout') }}">🔒 Déconnexion Admin</a></li>
+        {% endif %}
+          </ul>
+        </div>
+      </nav>
+      <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+        <span></span>
+      </button>
+    </div>
+  </header>
+  <main id="main">
+    {% block contenu %}
+    <section class="hero grid-texture">
+      <div class="container">
+        <div>
+          <span class="eyebrow">UFR Sciences, Technologies Avancées</span>
+          <h1>La science se construit à la paillasse, au tableau et sur le terrain.</h1>
+          <p class="lede">L'UFR STA forme les ingénieurs, chercheurs et enseignants de demain à travers trois
+          départements — Informatique, Mathématiques et Physique — et documente chaque avancée, de la
+          salle de TP jusqu'à la soutenance.</p>
+          <div class="hero-cta">
+            <a class="btn btn-primary" href="{{ url_for('formations') }}">Découvrir les formations</a>
+            <a class="btn btn-outline" href="{{ url_for('contact') }}">Nous contacter</a>
+          </div>
+          <div class="hero-stats">
+            <div><strong>03</strong><span>Départements</span></div>
+            <div><strong>06</strong><span>Diplômes Licence</span></div>
+            <div><strong>2026</strong><span>Rentrée académique</span></div>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <img src="{{ url_for('static', filename='images/Salle informatique.jpg') }}"
+               alt="Étudiants en séance de travaux pratiques dans une salle informatique de l'UFR STA">
+          <div class="tag">Fiche 01 — Vie de campus, UFR STA</div>
+        </div>
+      </div>
+    </section>
 
-    <header>
-        <h1>UFR STA</h1>
-        <nav>
-            <ul>
-                <li><a href="/">Accueil</a></li>
-                <li><a href="/departements">Départements</a></li>
-                <li><a href="/formations">Formations</a></li>
-                <li><a href="/actualites">Actualités</a></li>
-                <li><a href="/activites">Activités</a></li>
-                <li><a href="/galerie">Galerie</a></li>
-                <li><a href="/contact">Contact</a></li>
-                {% if session.admin_connecte %}
-                    <li><a href="{{ url_for('admin_logout') }}">🔒 Déconnexion Admin</a></li>
-                {% endif %}
+    <section class="section-dark">
+      <div class="container recteur-grid">
+        <div class="recteur-portrait">
+          <img src="{{ url_for('static', filename='images/Logo-STA.png') }}" alt="Logo officiel de l'UFR STA">
+        </div>
+        <div class="recteur-text">
+          <span class="eyebrow">Mot du Directeur</span>
+          <h2>Bienvenue sur le portail officiel de l'UFR Sciences et Technologies Avancées</h2>
+          <p>À travers ce site web institutionnel, je renouvelle notre engagement à offrir une
+          formation de qualité et à promouvoir la recherche, le service à la communauté et
+          l'innovation.</p>
+          <p>À l'ère actuelle, le numérique s'est hissé au rang d'incontournable. En constante
+          évolution et aux usages multiples, il a pris racine dans tous les secteurs
+          socio-économiques de la vie moderne. Afin de s'aligner avec cette évolution, propice
+          à la dématérialisation des procédures physiques et à la suppression des frontières,
+          l'Université Amadou Mahtar MBOW (UAM) a, dès le début, investi dans le numérique.
+          Ainsi, l'UAM est aussi orientée vers l'enseignement bimodal (présentiel et à distance)
+          grâce aux opportunités offertes par le numérique.</p>
+          <p>L'UAM, deuxième université (publique) de Dakar, a été créée par décret n° 2012-1474
+          du 24 décembre 2012 et dénommée par la suite Université Amadou Mahtar MBOW par décret
+          n° 2015-532 du 21 avril 2015, en hommage à l'ancien ministre de l'Éducation nationale
+          du Sénégal et ancien Directeur général de l'UNESCO. Intégrée au Pôle Urbain de
+          Diamniadio comme structure d'enseignement supérieur, l'UAM, institution dédiée à
+          l'excellence académique, a démarré ses enseignements-apprentissages depuis janvier
+          2020 et accueillera à terme trente mille étudiants.</p>
+          <p>La stratégie éducative de l'UAM est basée sur une pédagogie moderne et interactive,
+          des parcours modulaires, différenciés et flexibles, l'emploi des nouvelles technologies
+          de l'information et de la communication, des cours à distance en modalité avancée, la
+          formation continue des enseignants, les réseaux d'échanges interuniversitaires, et un
+          service d'information et d'orientation pédagogique des étudiants, pour ne citer que
+          ceux-là.</p>
+          <p>L'UAM a pour objectif de former les étudiants, avec une forte orientation vers les
+          métiers ; mais aussi de développer en eux un esprit citoyen et de les sensibiliser aux
+          enjeux de société et aux défis du futur.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-dark">
+      <div class="container grid grid-2" style="align-items:center;">
+        <div>
+          <span class="eyebrow"></span>
+          <h2>« STA, Plus qu’une formation, un avenir à construire. »</h2>
+        </div>
+        <div>
+          <p style="color:#cfd8e6;">Depuis sa création, l'UFR STA s'est donné pour mission de former des diplômés
+          capables de conjuguer maîtrise théorique et sens pratique. Nos équipes pédagogiques accompagnent
+          chaque promotion, des fondamentaux de la Licence jusqu'aux projets de recherche du Master, dans un
+          esprit d'ouverture sur les partenaires académiques et le monde de l'entreprise.</p>
+          <p style="color:#cfd8e6;">Ce site rassemble nos formations, nos actualités et le journal de nos
+          activités : une vitrine vivante, mise à jour par l'administration et nourrie par les contributions
+          des enseignants et des étudiants.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Présentation générale</span>
+          <h2>Un hub scientifique, technologique et d'innovation</h2>
+        </div>
+        <div class="presentation-grid">
+          <div class="presentation-visual">
+            <img src="{{ url_for('static', filename='images/labo-inf.jpg') }}" alt="Salle de formation et de recherche de l'UFR STA">
+          </div>
+          <div class="presentation-text">
+            <p>L'UFR Sciences et Technologies Avancées (STA) de l'UAM ambitionne d'être un
+            creuset d'excellence académique pour le développement des talents, un véritable hub
+            scientifique, technologique, numérique et d'innovation de référence en Afrique au
+            service des besoins de développement socio-économique du Sénégal et au-delà.</p>
+            <p>Les étudiants et l'ensemble des acteurs y trouveront :</p>
+            <ul class="check-list">
+              <li>Des formations innovantes adaptées aux besoins du marché de l'emploi.</li>
+              <li>Un corps professoral qualifié et engagé.</li>
+              <li>Une dynamique partenariale très forte sur le plan académique et avec les
+              entreprises et institutions de recherche, tant au niveau national qu'international.</li>
+              <li>Un environnement favorable à l'apprentissage, à l'acquisition de connaissances
+              et de compétences, à l'éclosion des jeunes talents pour l'entreprenariat et le
+              développement de startups.</li>
             </ul>
-        </nav>
-    </header>
+          </div>
+        </div>
+        <div class="grid grid-3 mt-2">
+          <article class="fiche">
+            <span class="fiche-code">Pilier — Enseignement</span>
+            <h3>Formations diplômantes</h3>
+            <p>Des cursus de Licence et Master construits semestre après semestre, du socle algorithmique aux
+            spécialisations en cybersécurité, modelisation ou physique appliquée.</p>
+          </article>
+          <article class="fiche">
+            <span class="fiche-code">Pilier — Recherche</span>
+            <h3>Encadrement scientifique</h3>
+            <p>Des enseignants-chercheurs actifs dans leurs domaines, qui irriguent les enseignements de
+            travaux pratiques et de projets tutorés.</p>
+          </article>
+          <article class="fiche">
+            <span class="fiche-code">Pilier — Vie étudiante</span>
+            <h3>Activités &amp; ouverture</h3>
+            <p>Ateliers, conférences,et sorties pédagogiques rythment l'année et sont documentés
+            dans le journal des activités.</p>
+          </article>
+        </div>
+      </div>
+    </section>
 
-    <main>
-        {% block contenu %}
-        {% endblock %}
-    </main>
+    <section class="section-dim">
+      <div class="container">
+        <div class="section-head" style="display:flex; align-items:flex-end; justify-content:space-between; gap:1rem; max-width:none;">
+          <div>
+            <span class="eyebrow">Organisation</span>
+            <h2>Les départements en bref</h2>
+          </div>
+          <a class="btn-ghost btn" href="{{ url_for('departements') }}">Voir tous les départements →</a>
+        </div>
+        <div class="grid grid-3">
+          <article class="dept-card">
+            <span class="dept-index">Dépt. 01</span>
+            <h3>Informatique</h3>
+            <p>Algorithmique, systèmes, cybersécurité et intelligence artificielle.</p>
+            <ul>
+              <li>Licence Informatique</li>
+              <li>Master Informatique</li>
+            </ul>
+          </article>
+          <article class="dept-card">
+            <span class="dept-index">Dépt. 02</span>
+            <h3>Mathématiques</h3>
+            <p>Analyse, algèbre et modélisation au service des sciences appliquées.</p>
+            <ul>
+              <li>Licence Mathématiques</li>
+              <li>Master Mathématiques</li>
+            </ul>
+          </article>
+          <article class="dept-card">
+            <span class="dept-index">Dépt. 03</span>
+            <h3>Physique</h3>
+            <p>Physique fondamentale et applications instrumentales en laboratoire.</p>
+            <ul>
+              <li>Licence Physique</li>
+              <li>Master Physique</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
 
-    <footer>
-        <p>&copy; 2026 UFR STA - Tous droits réservés</p>
-    </footer>
+    <section>
+      <div class="container">
+        <div class="section-head" style="display:flex; align-items:flex-end; justify-content:space-between; gap:1rem; max-width:none;">
+          <div>
+            <span class="eyebrow">À la une</span>
+            <h2>Dernières actualités</h2>
+          </div>
+          <a class="btn-ghost btn" href="{{ url_for('actualites') }}">Toutes les actualités →</a>
+        </div>
+        <div class="grid grid-3">
+          <article class="news-card">
+            <figure><img src="{{ url_for('static', filename='images/actu4.jpg') }}" alt="Appels à candidature"></figure>
+            <div class="body">
+              <span class="type">Recrutement </span>
+              <h3>Appel à candidature pour l'UFR STA</h3>
+              <time datetime="2026-05-12">12 Mai 2026</time>
+              <p>L'Université Amadou Mahtar MBOW lance un appel à candidature pour le recrutement
+                de deux Enseignants-Chercheurs au sein de l'UFR Science et Technologies Avancées.
+              </p>
+              <a class="more" href="{{ url_for('actualites') }}">Lire la suite →</a>
+            </div>
+          </article>
+          <article class="news-card">
+            <figure><img src="{{ url_for('static', filename='images/actu5.jpg') }}" alt="Conference scientifique"></figure>
+            <div class="body">
+              <span class="type">Conference scientifique</span>
+              <h3>Les mathématiques au service de la communauté</h3>
+              <time datetime="2025-04-30">30 Avril 2026</time>
+              <p>L'UFR STA, à travers son Département Mathématiques, Informatique et modelisation (MIM)
+                organise une conférence scientifique prévue le 30 Avril 2025.
+              </p>
+              <a class="more" href="{{ url_for('actualites') }}">Lire la suite →</a>
+            </div>
+          </article>
+          <article class="news-card">
+            <figure><img src="{{ url_for('static', filename='images/actu3.jpg') }}" alt="UFR STA"></figure>
+            <div class="body">
+              <span class="type">Passation de service</span>
+              <h3>Passation de service à l'UFR STA: Cap sur l'excellence 
+                avec une nouvelle Direction adjointe</h3>
+              <time datetime="2026-04-15">15 avril 2026</time>
+              <p>Le Dr Siny Ndoye succède au Pr Amadou Dahirou GUEYE.</p>
+              <a class="more" href="{{ url_for('actualites') }}">Lire la suite →</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+    {% endblock %}
+  </main>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">
+            <img src="{{ url_for('static', filename='images/Logo-STA.png') }}">
+          </div>
+          <p>Unité de Formation et de Recherche en Sciences, Technologies et Avancées — Université Amadou Mahtar Mbow (UAM).</p>
+        </div>
+        <div>
+          <h4>Naviguer</h4>
+          <ul>
+            <li><a href="{{ url_for('departements') }}">Départements</a></li>
+            <li><a href="{{ url_for('formations') }}">Formations</a></li>
+            <li><a href="{{ url_for('actualites') }}">Actualités</a></li>
+            <li><a href="{{ url_for('activites') }}">Activités</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Ressources</h4>
+          <ul>
+            <li><a href="{{url_for('galerie') }}">Galerie photos</a></li>
+            <li><a href="{{url_for('enseignants') }}">Corps enseignant</a></li>
+            <li><a href="{{url_for('contact') }}">Contact</a></li>
+            <li><a href="{{ url_for('admin_dashboard') }}">Espace administration</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <ul>
+            <li>Campus UAM, Sénégal</li>
+            <li>directeur-ufrsta@uam.edu.sn</li>
+            <li>+221 33 844 10 00</li>
+            <li> 08h00 - 17h00</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 UFR STA — Projet réalisé dans le cadre du cours de Programmation Web, L3 Informatique.</span>
+        <span>Site vitrine — Frontend HTML5 / CSS3</span>
+      </div>
+    </div>
+  </footer>
 
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  {% block script %}{% endblock %}
 </body>
 </html>

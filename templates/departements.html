@@ -3,15 +3,30 @@
 {% block titre %}Départements - UFR STA{% endblock %}
 
 {% block contenu %}
-<h2>Nos Départements</h2>
 
-{% for dept in departements %}
-    <div class="departement">
-        <h3>{{ dept.nom }}</h3>
-        <p>{{ dept.description }}</p>
-        <p><strong>Responsable :</strong> {{ dept.responsable }}</p>
-        <p><strong>Contact :</strong> {{ dept.contact }}</p>
+<div class="page-head">
+    <div class="container">
+        <div class="breadcrumb"><a href="{{ url_for('accueil') }}">Accueil</a>  /Départements</div>
+        <h1>Nos Départements</h1>
+        <p class="lede">L'UFR STA </p>
     </div>
-{% endfor %}
+</div>
 
+<section>
+    <div class="container">
+        <div class="grid grid-3">
+            {% for dept in departements %}
+            <article class="dept-card">
+                <span class="dept-index">Dépt. {{ '%02d' % loop.index }}</span>
+                <h3>{{ dept.nom }}</h3>
+                <p>{{ dept.description }}</p>
+                <ul>
+                    <li><strong>Responsable : </strong> {{ dept.responsable }}</li>
+                </ul>
+                <div>{{ dept.contact }}</div>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
 {% endblock %}

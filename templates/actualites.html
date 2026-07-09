@@ -3,19 +3,40 @@
 {% block titre %}Actualités - UFR STA{% endblock %}
 
 {% block contenu %}
-<h2>Nos Actualités</h2>
-
-{% if actualites %}
-    {% for actu in actualites %}
-        <div class="actualite">
-            <h3>{{ actu.titre }}</h3>
-            <p><em>{{ actu.date }}</em></p>
-            <p>{{ actu.description }}</p>
+<div class="page-head">
+    <div class="container">
+        <div class="breadcrumb"><a href="{{ url_for('accueil') }}">Accueil</a> / Actualités</div>
+        <h1>Actualités de l'UFR STA</h1>
+        <p class="lede">Séminaires, Conférences, soutenances, appels à candidature et résultats : toute
+            l'actualité de l'UFR au meme endroit.
+        </p>
+    </div>
+</div>
+<section>
+    <div class="container">
+        {% if actualites %}
+        <div class="grid grid-3">
+            {% for actu in actualites %}
+            <article class="news-card">
+                <figure>
+                    {% if actu.photo %}
+                    <img src="{{ url_for('static', filename='images/'~ actu.photo) }}" alt="{{ actu.titre }}">
+                    {% else %}
+                    <img src="{{ url_for('static', filename='images/actu5.jpg') }}" alt="{{ actu.titre }}">
+                    {% endif %}
+                </figure>
+                <div class="body">
+                    <span class="type">Actualité</span>
+                    <h3>{{ actu.titre }}</h3>
+                    <time>{{ actu.date }}</time>
+                    <p>{{ actu.description }}</p>
+                </div>
+            </article>
+            {% endfor %}
         </div>
-        <hr>
-    {% endfor %}
-{% else %}
-    <p>Aucune actualité pour le moment.</p>
-{% endif %}
-
+        {% else %}
+        <p>Aucune actualité pour le moment. Revenez bientôt !</p>
+        {% endif %}
+    </div>
+</section>
 {% endblock %}
